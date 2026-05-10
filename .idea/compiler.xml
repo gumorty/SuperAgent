@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="ai-agent-infrastructure" />
+        <module name="ai-agent-types" />
+        <module name="mcp-server-email" />
+        <module name="ai-agent-app" />
+        <module name="mcp-server-bocha" />
+        <module name="ai-agent-trigger" />
+        <module name="mcp-server-wecom" />
+        <module name="ai-agent-api" />
+        <module name="ai-agent-domain" />
+        <module name="mcp-server-amap" />
+        <module name="mcp-server-csdn" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="ai-agent" options="-parameters" />
+      <module name="ai-agent-api" options="-parameters" />
+      <module name="ai-agent-app" options="-parameters" />
+      <module name="ai-agent-domain" options="-parameters" />
+      <module name="ai-agent-infrastructure" options="-parameters" />
+      <module name="ai-agent-trigger" options="-parameters" />
+      <module name="ai-agent-types" options="-parameters" />
+      <module name="mcp-server-amap" options="-parameters" />
+      <module name="mcp-server-bocha" options="-parameters" />
+      <module name="mcp-server-csdn" options="-parameters" />
+      <module name="mcp-server-email" options="-parameters" />
+      <module name="mcp-server-wecom" options="-parameters" />
+    </option>
+  </component>
+</project>

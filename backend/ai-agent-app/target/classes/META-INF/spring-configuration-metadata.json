@@ -1,0 +1,217 @@
+{
+  "groups": [
+    {
+      "name": "datasource.hikari",
+      "type": "com.dasi.properties.HikariDataSourceProperties",
+      "sourceType": "com.dasi.properties.HikariDataSourceProperties"
+    },
+    {
+      "name": "datasource.mysql",
+      "type": "com.dasi.properties.MySQLProperties",
+      "sourceType": "com.dasi.properties.MySQLProperties"
+    },
+    {
+      "name": "datasource.postgresql",
+      "type": "com.dasi.properties.PostgreSQLProperties",
+      "sourceType": "com.dasi.properties.PostgreSQLProperties"
+    },
+    {
+      "name": "miniagent.embedding",
+      "type": "com.dasi.properties.EmbeddingProperties",
+      "sourceType": "com.dasi.properties.EmbeddingProperties"
+    },
+    {
+      "name": "miniagent.mq",
+      "type": "com.dasi.properties.RabbitMqProperties",
+      "sourceType": "com.dasi.properties.RabbitMqProperties"
+    },
+    {
+      "name": "miniagent.schedule",
+      "type": "com.dasi.properties.ScheduleProperties",
+      "sourceType": "com.dasi.properties.ScheduleProperties"
+    },
+    {
+      "name": "miniagent.system-model",
+      "type": "com.dasi.properties.SystemModelProperties",
+      "sourceType": "com.dasi.properties.SystemModelProperties"
+    },
+    {
+      "name": "thread.pool.executor",
+      "type": "com.dasi.properties.ThreadPoolProperties",
+      "sourceType": "com.dasi.properties.ThreadPoolProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "datasource.hikari.connection-test-query",
+      "type": "java.lang.String",
+      "sourceType": "com.dasi.properties.HikariDataSourceProperties"
+    },
+    {
+      "name": "datasource.hikari.connection-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.dasi.properties.HikariDataSourceProperties"
+    },
+    {
+      "name": "datasource.hikari.idle-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.dasi.properties.HikariDataSourceProperties"
+    },
+    {
+      "name": "datasource.hikari.initialization-fail-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.dasi.properties.HikariDataSourceProperties"
+    },
+    {
+      "name": "datasource.hikari.max-lifetime",
+      "type": "java.lang.Long",
+      "sourceType": "com.dasi.properties.HikariDataSourceProperties"
+    },
+    {
+      "name": "datasource.hikari.maximum-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.dasi.properties.HikariDataSourceProperties"
+    },
+    {
+      "name": "datasource.hikari.minimum-idle",
+      "type": "java.lang.Integer",
+      "sourceType": "com.dasi.properties.HikariDataSourceProperties"
+    },
+    {
+      "name": "miniagent.embedding.api-key",
+      "type": "java.lang.String",
+      "sourceType": "com.dasi.properties.EmbeddingProperties"
+    },
+    {
+      "name": "miniagent.embedding.base-url",
+      "type": "java.lang.String",
+      "sourceType": "com.dasi.properties.EmbeddingProperties"
+    },
+    {
+      "name": "miniagent.embedding.dimensions",
+      "type": "java.lang.Integer",
+      "sourceType": "com.dasi.properties.EmbeddingProperties"
+    },
+    {
+      "name": "miniagent.embedding.encoding-format",
+      "type": "java.lang.String",
+      "sourceType": "com.dasi.properties.EmbeddingProperties"
+    },
+    {
+      "name": "miniagent.embedding.model",
+      "type": "java.lang.String",
+      "sourceType": "com.dasi.properties.EmbeddingProperties"
+    },
+    {
+      "name": "miniagent.embedding.schema-name",
+      "type": "java.lang.String",
+      "sourceType": "com.dasi.properties.EmbeddingProperties"
+    },
+    {
+      "name": "miniagent.embedding.table-name",
+      "type": "java.lang.String",
+      "sourceType": "com.dasi.properties.EmbeddingProperties"
+    },
+    {
+      "name": "miniagent.mq.dead-queue",
+      "type": "java.lang.String",
+      "sourceType": "com.dasi.properties.RabbitMqProperties"
+    },
+    {
+      "name": "miniagent.mq.dead-routing-key",
+      "type": "java.lang.String",
+      "sourceType": "com.dasi.properties.RabbitMqProperties"
+    },
+    {
+      "name": "miniagent.mq.exchange",
+      "type": "java.lang.String",
+      "sourceType": "com.dasi.properties.RabbitMqProperties"
+    },
+    {
+      "name": "miniagent.mq.main-queue",
+      "type": "java.lang.String",
+      "sourceType": "com.dasi.properties.RabbitMqProperties"
+    },
+    {
+      "name": "miniagent.mq.main-routing-key",
+      "type": "java.lang.String",
+      "sourceType": "com.dasi.properties.RabbitMqProperties"
+    },
+    {
+      "name": "miniagent.mq.max-retry",
+      "type": "java.lang.Integer",
+      "sourceType": "com.dasi.properties.RabbitMqProperties"
+    },
+    {
+      "name": "miniagent.mq.retry-delay",
+      "type": "java.lang.Long",
+      "sourceType": "com.dasi.properties.RabbitMqProperties"
+    },
+    {
+      "name": "miniagent.mq.retry-queue",
+      "type": "java.lang.String",
+      "sourceType": "com.dasi.properties.RabbitMqProperties"
+    },
+    {
+      "name": "miniagent.mq.retry-routing-key",
+      "type": "java.lang.String",
+      "sourceType": "com.dasi.properties.RabbitMqProperties"
+    },
+    {
+      "name": "miniagent.schedule.refresh-cron",
+      "type": "java.lang.String",
+      "sourceType": "com.dasi.properties.ScheduleProperties"
+    },
+    {
+      "name": "miniagent.system-model.api-key",
+      "type": "java.lang.String",
+      "sourceType": "com.dasi.properties.SystemModelProperties"
+    },
+    {
+      "name": "miniagent.system-model.base-url",
+      "type": "java.lang.String",
+      "sourceType": "com.dasi.properties.SystemModelProperties"
+    },
+    {
+      "name": "miniagent.system-model.model",
+      "type": "java.lang.String",
+      "sourceType": "com.dasi.properties.SystemModelProperties"
+    },
+    {
+      "name": "thread.pool.executor.block-queue-size",
+      "type": "java.lang.Integer",
+      "description": "最大队列数",
+      "sourceType": "com.dasi.properties.ThreadPoolProperties",
+      "defaultValue": 5000
+    },
+    {
+      "name": "thread.pool.executor.core-pool-size",
+      "type": "java.lang.Integer",
+      "description": "核心线程数",
+      "sourceType": "com.dasi.properties.ThreadPoolProperties",
+      "defaultValue": 20
+    },
+    {
+      "name": "thread.pool.executor.keep-alive-time",
+      "type": "java.lang.Long",
+      "description": "最大等待时间",
+      "sourceType": "com.dasi.properties.ThreadPoolProperties",
+      "defaultValue": 10
+    },
+    {
+      "name": "thread.pool.executor.max-pool-size",
+      "type": "java.lang.Integer",
+      "description": "最大线程数",
+      "sourceType": "com.dasi.properties.ThreadPoolProperties",
+      "defaultValue": 200
+    },
+    {
+      "name": "thread.pool.executor.policy",
+      "type": "java.lang.String",
+      "description": "线程执行策略",
+      "sourceType": "com.dasi.properties.ThreadPoolProperties",
+      "defaultValue": "AbortPolicy"
+    }
+  ],
+  "hints": []
+}
