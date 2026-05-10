@@ -1,0 +1,271 @@
+services:
+  mysql:
+    image: mysql:8.0.40
+    container_name: miniagent-mysql
+    restart: unless-stopped
+    ports:
+      - "${MYSQL_PORT}:3306"
+    environment:
+      TZ: ${TZ}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: oneapi
+    volumes:
+      - miniagent_mysql_data:/var/lib/mysql
+      - ./backend/docs/docker/conf/my.cnf:/etc/mysql/conf.d/my.cnf:ro
+      - ./backend/docs/docker/conf/mysql/table.sql:/docker-entrypoint-initdb.d/01-table.sql:ro
+      - ./backend/docs/docker/conf/mysql/init.sql:/docker-entrypoint-initdb.d/02-init.sql:ro
+      - ./backend/docs/docker/conf/mysql/03-docker-network.sql:/docker-entrypoint-initdb.d/03-docker-network.sql:ro
+      - ./backend/docs/docker/conf/mysql/04-local-seed-fixes.sql:/docker-entrypoint-initdb.d/04-local-seed-fixes.sql:ro
+      - ./backend/docs/docker/conf/mysql/05-superagent-local-seed.sql:/docker-entrypoint-initdb.d/05-superagent-local-seed.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -p${MYSQL_ROOT_PASSWORD} --silent"]
+      interval: 5s
+      timeout: 10s
+      retries: 20
+    networks:
+      - miniagent
+
+  redis:
+    image: redis:8.0.1
+    container_name: miniagent-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command:
+      - redis-server
+      - /usr/local/etc/redis/redis.conf
+      - --appendonly
+      - "yes"
+      - --requirepass
+      - ${REDIS_PASSWORD}
+    volumes:
+      - miniagent_redis_data:/data
+      - ./backend/docs/docker/conf/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 5s
+      timeout: 10s
+      retries: 20
+    networks:
+      - miniagent
+
+  pgvector:
+    image: pgvector/pgvector:0.7.4-pg16
+    container_name: miniagent-pgvector
+    restart: unless-stopped
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    environment:
+      TZ: ${TZ}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - miniagent_pgvector_data:/var/lib/postgresql/data
+      - ./backend/docs/docker/conf/table.sql:/docker-entrypoint-initdb.d/01-pgvector.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 10s
+      retries: 20
+    networks:
+      - miniagent
+
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: miniagent-rabbitmq
+    hostname: rabbitmq
+    restart: unless-stopped
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USERNAME}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    volumes:
+      - miniagent_rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks:
+      - miniagent
+
+  one-api:
+    image: justsong/one-api:v0.6.11-preview.7
+    container_name: miniagent-one-api
+    platform: linux/amd64
+    restart: unless-stopped
+    ports:
+      - "${ONE_API_PORT}:3000"
+    environment:
+      TZ: ${TZ}
+      SQL_DSN: root:${MYSQL_ROOT_PASSWORD}@tcp(mysql:3306)/oneapi?charset=utf8mb4&parseTime=True&loc=Local
+    depends_on:
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/api/status || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+    networks:
+      - miniagent
+
+  mcp-server-csdn:
+    image: dasi0227/mcp-server-csdn:0.2.0
+    container_name: miniagent-mcp-server-csdn
+    restart: unless-stopped
+    ports:
+      - "9001:9001"
+    networks:
+      - miniagent
+
+  mcp-server-wecom:
+    image: dasi0227/mcp-server-wecom:0.2.0
+    container_name: miniagent-mcp-server-wecom
+    restart: unless-stopped
+    ports:
+      - "9002:9002"
+    networks:
+      - miniagent
+
+  mcp-server-amap:
+    image: dasi0227/mcp-server-amap:0.2.0
+    container_name: miniagent-mcp-server-amap
+    restart: unless-stopped
+    ports:
+      - "9003:9003"
+    networks:
+      - miniagent
+
+  mcp-server-email:
+    image: dasi0227/mcp-server-email:0.2.0
+    container_name: miniagent-mcp-server-email
+    restart: unless-stopped
+    ports:
+      - "9004:9004"
+    networks:
+      - miniagent
+
+  mcp-server-bocha:
+    image: dasi0227/mcp-server-bocha:0.2.0
+    container_name: miniagent-mcp-server-bocha
+    restart: unless-stopped
+    ports:
+      - "9005:9005"
+    networks:
+      - miniagent
+
+  mcp-server-github:
+    image: gujianwei/mcp-server-github:1.0
+    container_name: miniagent-mcp-server-github
+    restart: unless-stopped
+    ports:
+      - "8105:8105"
+    environment:
+      GITHUB_OWNER: gumorty
+      GITHUB_REPO: ai-articles
+      GITHUB_TOKEN: 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
+      GITHUB_DEFAULT_LABEL_1: AI
+      GITHUB_DEFAULT_LABEL_2: MCP
+      GITHUB_DEFAULT_LABEL_3: Automation
+    networks:
+      - miniagent
+
+
+  backend:
+    build:
+      context: ./backend
+    container_name: miniagent-backend
+    restart: unless-stopped
+    ports:
+      - "${BACKEND_PORT}:8066"
+    environment:
+      TZ: ${TZ}
+      JAVA_OPTS: ${BACKEND_JAVA_OPTS}
+      SERVER_ADDRESS: 0.0.0.0
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DB_NAME: ai-agent
+      DATASOURCE_MYSQL_JDBC_URL: jdbc:mysql://mysql:3306/ai-agent?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+      POSTGRESQL_USERNAME: ${POSTGRES_USER}
+      POSTGRESQL_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRESQL_DB_NAME: ${POSTGRES_DB}
+      DATASOURCE_POSTGRESQL_JDBC_URL: jdbc:postgresql://pgvector:5432/${POSTGRES_DB}
+      REDIS_DATABASE: 0
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      OPENAI_BASE_URL: ${OPENAI_BASE_URL}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL}
+      EMBEDDING_DIMENSIONS: ${EMBEDDING_DIMENSIONS}
+      EMBEDDING_SCHEMA_NAME: ${EMBEDDING_SCHEMA_NAME}
+      EMBEDDING_TABLE_NAME: ${EMBEDDING_TABLE_NAME}
+      SYSTEM_MODEL_BASE_URL: ${SYSTEM_MODEL_BASE_URL}
+      SYSTEM_MODEL_API_KEY: ${SYSTEM_MODEL_API_KEY}
+      SYSTEM_MODEL_NAME: ${SYSTEM_MODEL_NAME}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_ISSUER: ${JWT_ISSUER}
+      OSS_ENDPOINT: ${OSS_ENDPOINT}
+      OSS_BUCKET: ${OSS_BUCKET}
+      OSS_ACCESS_KEY_ID: ${OSS_ACCESS_KEY_ID}
+      OSS_ACCESS_KEY_SECRET: ${OSS_ACCESS_KEY_SECRET}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      pgvector:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      mcp-server-csdn:
+        condition: service_started
+      mcp-server-wecom:
+        condition: service_started
+      mcp-server-amap:
+        condition: service_started
+      mcp-server-email:
+        condition: service_started
+      mcp-server-bocha:
+        condition: service_started
+      mcp-server-github:
+        condition: service_started
+
+    networks:
+      - miniagent
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_BASE: /miniagent
+    container_name: miniagent-frontend
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT}:80"
+    depends_on:
+      backend:
+        condition: service_started
+    networks:
+      - miniagent
+
+volumes:
+  miniagent_mysql_data:
+  miniagent_redis_data:
+  miniagent_pgvector_data:
+  miniagent_rabbitmq_data:
+
+networks:
+  miniagent:
+    driver: bridge

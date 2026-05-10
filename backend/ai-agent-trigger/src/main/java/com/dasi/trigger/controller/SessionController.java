@@ -1,0 +1,66 @@
+package com.dasi.trigger.controller;
+
+import com.dasi.api.ISessionApi;
+import com.dasi.domain.session.model.vo.MessageVO;
+import com.dasi.domain.session.model.vo.SessionVO;
+import com.dasi.domain.session.service.ISessionService;
+import com.dasi.types.result.Result;
+import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@Slf4j
+@RestController
+@RequestMapping("/session")
+public class SessionController implements ISessionApi {
+
+    @Resource
+    private ISessionService sessionService;
+
+    @PostMapping("/list")
+    @Override
+    public Result<List<SessionVO>> listSession() {
+        return Result.success(sessionService.listSession());
+    }
+
+    @PostMapping("/insert")
+    @Override
+    public Result<SessionVO> insertSession(@RequestParam("sessionTitle") String sessionTitle, @RequestParam("sessionType") String sessionType) {
+        return Result.success(sessionService.insertSession(sessionTitle, sessionType));
+    }
+
+    @PostMapping("/update")
+    @Override
+    public Result<Void> updateSession(@RequestParam("sessionId") String sessionId, @RequestParam("sessionTitle") String sessionTitle) {
+        sessionService.updateSession(sessionId, sessionTitle);
+        return Result.success();
+    }
+
+    @PostMapping("/delete")
+    @Override
+    public Result<Void> deleteSession(@RequestParam("sessionId") String sessionId) {
+        sessionService.deleteSession(sessionId);
+        return Result.success();
+    }
+
+    @PostMapping("/message/chat")
+    @Override
+    public Result<List<MessageVO>> listChatMessage(@RequestParam("sessionId") String sessionId) {
+        return Result.success(sessionService.listChatMessage(sessionId));
+    }
+
+    @PostMapping("/message/work-sse")
+    @Override
+    public Result<List<MessageVO>> listWorkSseMessage(@RequestParam("sessionId") String sessionId) {
+        return Result.success(sessionService.listWorkSseMessage(sessionId));
+    }
+
+    @PostMapping("/message/work-answer")
+    @Override
+    public Result<List<MessageVO>> listWorkAnswerSession(@RequestParam("sessionId") String sessionId) {
+        return Result.success(sessionService.listWorkAnswerMessage(sessionId));
+    }
+
+}
