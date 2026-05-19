@@ -64,7 +64,7 @@ SuperAgent/
     ├── mcp-server-csdn/           # CSDN MCP Server
     ├── mcp-server-email/          # 邮件服务 MCP Server
     └── mcp-server-wecom/          # 企业微信 MCP Server
-
+```text
 🚀 快速开始
 1. 环境准备
 确保您的本地已安装以下环境：
@@ -121,8 +121,6 @@ Fork 本仓库
 
 📄 开源协议
 本项目采用 MIT License 协议开源。
-
-***
 
 ### 💡 写在最后的小建议：
 1. **完善截图**：在 `📸 预览体验` 栏目，强烈建议你放几张前端跑起来后的真实截图（比如 `AdminDashboard` 的图表、`Chat` 的对话界面，或者 `Plaza` 的卡片）。视觉冲击力是吸引路人点赞（Star）的第一要素！
