@@ -64,10 +64,8 @@ SuperAgent/
     ├── mcp-server-csdn/           # CSDN MCP Server
     ├── mcp-server-email/          # 邮件服务 MCP Server
     └── mcp-server-wecom/          # 企业微信 MCP Server
+```
 
-没问题！我把这部分内容为你整理成了标准的 Markdown 格式，并且加上了代码高亮。你可以直接点击右上角的“复制”按钮，将下面的内容全部粘贴到你的 `README.md` 文件中：
-
-```markdown
 ## 🚀 快速开始
 
 ### 1. 环境准备
